@@ -1,0 +1,69 @@
+{% load display_filter %}
+
+<div id="web-content">
+	<!-- <h3>{# include 'base_content/app_name.html' #}</h3> -->
+	<div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+		<h4>
+			{% if app_name == 'school' %}
+				<select class="form-select" id="select-redirect">
+					{% for class in school_classs %}
+						<option value="{% url 'school:school_list' class.name %}">
+							{{ class.name }}{{ app_name|translate_app_name }}
+						</option>
+					{% endfor %}
+			  	</select>
+			{% else %}
+				{{ app_name|translate_app_name }}
+			{% endif %}
+		</h4>
+		<div>
+			<span id="app_name" style="display:none">{{ app_name }}</span>
+			<button id="showListBtn" 
+				class="changeStyleBtn btn
+					{% if show_type == 'list' %}btn-dark{% else %}btn-light{% endif %}"
+				type="button">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-justify" viewBox="0 0 16 16">
+					<path fill-rule="evenodd" d="M2 12.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+				</svg>
+			</button>
+			<button id="showCardBtn" 
+				class="changeStyleBtn btn
+					{% if show_type == 'card' %}btn-dark{% else %}btn-light{% endif %}" 
+				type="button">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-grid" viewBox="0 0 16 16">
+					<path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"/>
+				</svg>
+			</button>
+			{% if app_name != 'search' %}
+				{% include 'core/components/base_list/create_btn.html' %}
+			{% endif %}
+		</div>
+	</div>
+
+
+	{% if app_name == 'search' %}
+		<div class="col-lg-6 col-md-12 col-sm-12 mt-3 mb-4">
+			<form action="{% url 'core:post_search' %}" method="get" class="post_search">
+				{# csrf_token #}
+				<div class="input-group">
+					<input type="text" name="q" placeholder="검색 단어 입력" class="form-control" required="" id="id_q" value="{{ q }}">
+					<button class="btn btn-dark px-4" type="submit">
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+							<path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+						</svg>
+					</button>
+				</div>
+			</form>
+		</div>
+	{% endif %}
+	
+
+	<div id="list_block" class="{% if show_type == 'card' %}d-none{% endif %}">
+		{% include 'core/components/base_list/list_text.html' %}
+	</div>
+
+	<div id="card_block" class="{% if show_type == 'list' %}d-none{% endif %}">
+		{% include 'core/components/base_list/list_card.html' %}
+	</div>
+
+</div>

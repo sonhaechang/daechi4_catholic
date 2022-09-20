@@ -1,0 +1,42 @@
+{% extends 'container/base.html' %}
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/base_css/list/simple_search.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/base_css/list/list_text.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/base_css/list/pagination.css' %}">
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+
+			{% block jumbotron %}
+				{% include 'components/jumbotron.html' %}
+			{% endblock %}
+
+			{% block sidebar %}
+				{% include 'components/sidebar.html' %}
+			{% endblock %}
+
+			<div class="col-lg-10 col-md-12">
+				{% include 'core/components/base_list/list_content.html' %}
+
+				<div class="d-flex justify-content-between col-12 mt-5">
+					{% block pagination %}
+						{% include 'core/components/base_list/pagination.html' %}
+						{% include 'core/components/base_list/simple_search.html' %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script>const appName = '{{ app_name }}';</script>
+	<script src="{% static 'core/js/base_js/list/list_content_toggle.js' %}"></script>
+	<script src="{% static 'core/js/base_js/list/pagination.js' %}"></script>
+	<script src="{% static 'core/js/base_js/list/simple_search.js' %}"></script>
+{% endblock %}

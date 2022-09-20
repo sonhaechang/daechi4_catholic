@@ -1,0 +1,88 @@
+<div class="row slider-wrapper">
+	<div class="col-12 text-center mb-5">
+		<h4 class="mb-3">
+			<a href="{% url 'gallery:gallery_list' %}" class="text-burgundy">행사사진</a>
+			<!-- 행사사진 -->
+		</h4>
+		<div class="d-flex justify-content-between align-items-center">
+			<div class="line-through">
+				<div class="line"></div>
+			</div>
+			<p class="m-0">대치4동 성당의 각종 행사 사진을 확인하실 수 있습니다.</p>
+			<div class="line-through">
+				<div class="line"></div>
+			</div>
+		</div>
+		
+		<!-- <div class="d-flex justify-content-center align-items-center mt-3">
+			<a href="{% url 'gallery:gallery_list' %}" 
+				class="list-more-btn rounded-circle d-flex justify-content-center align-items-center border border-burgundy"
+				style="width: 35px; height: 35px;">
+				<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+					<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"></path>
+				</svg>
+			</a>
+		</div> -->
+	</div>
+	<div id="{{ slider_id }}" class="col-12 overflow-hidden p-0">
+		<div class="d-flex slider-inner" style="transform: translate3d(0, 0, 0); transition: 500ms;">
+			{% for obj in obj_list %}
+				<div class="col-lg-3 col-md-3 col-6 px-2 slider-content">
+					<a href="{{ obj.get_absolute_url }}" 	
+						class="view-counter text-dark">
+						<div class="card border-0">
+							{% if obj.thumbnail_set.all %}
+								{% for t in obj.thumbnail_set.all %}
+									<img class="img rounded-top" src="https://daechi4.s3.ap-northeast-2.amazonaws.com/media{{ t }}" alt="Thumbnail" style="height:200px; width: 100%;">
+								{% endfor %}
+							{% endif %}
+				
+							<div class="card-body bg-light">		
+								<p class="card-text pt-2 mb-2 overflow-hidden" style="height: 30px;">
+									{{ obj.title|truncatechars:20 }}
+								</p>
+								<div class="d-flex justify-content-between align-items-center text-muted"
+									style="font-size: 15px;">
+									<small>
+										<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+											<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+											<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+										</svg>
+										<span class="ms-2">
+											{{ obj.created_at|date:"Y-m-d" }}
+										</span>
+									</small>
+								</div>
+							</div>
+						</div>
+					</a>
+				</div>
+			{% endfor %}
+		</div>
+
+		<div class="slider-control-block d-flex justify-content-between align-items-end py-2 mt-3">
+			<div class="slider-control-prev ps-2">
+				<span class="prev-btn cursor-pointer bg-dark text-white p-2 rounded">
+					<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+						<path fill-rule="evenodd" d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+					</svg>
+				</span>
+			</div>
+			<div class="slider-indicators">
+				<div class="slider-indicators-scrollbar rounded-pill">
+					<div class="slider-indicators-scrollbar-drag bg-dark rounded-pill h-100">
+					</div>
+				</div>
+			</div>
+			<div class="slider-control-next pe-2">
+				<span class="next-btn cursor-pointer bg-dark text-white p-2 rounded">
+					<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+						<path fill-rule="evenodd" d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z"/>
+						<path fill-rule="evenodd" d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z"/>
+					</svg>
+				</span>	
+			</div>
+		</div>
+	</div>
+</div>

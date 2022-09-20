@@ -1,0 +1,207 @@
+{% load static %}
+
+<style>
+	.form-floating:focus-within { z-index: 2; }
+	.form-floating > label { left: auto; }
+</style>
+
+<form action="" method="post">
+	{% csrf_token %}
+	{% if form.errors %}
+		{% for error in form.non_field_errors %}
+			<div class="invalid-feedback text-center pb-3 d-block">
+				{{ error }}
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if not user.is_authenticated %}
+		<div class="form-group row mb-3">
+			<label for="id_username" class="col-4 col-form-label fw-bolder">
+				{{ form.username.label }}
+			</label>
+			<div class="col-8">
+				{{ form.username }}
+				<div class="invalid-feedback d-block">
+					{{ form.username.errors }}
+				</div>
+				{% if form.username.help_text %}
+					<small class="form-text text-muted">
+						{{ form.username.help_text }}
+					</small>
+				{% endif %}
+			</div>
+		</div>
+	{% else %}
+		<div class="form-group row mb-3">
+			<label for="id_username" class="col-4 col-form-label fw-bolder">
+				아이디
+			</label>
+			<div class="col-8">
+				<input type="text" value="{{ user.username }}"class="form-control" disabled="True">
+			</div>
+		</div>
+	{% endif %}
+
+	{% if form.password1 %}
+		<div class="form-group row mb-3">
+			<label for="id_password1" class="col-4 col-form-label fw-bolder">
+				{{ form.password1.label }}
+			</label>
+			<div class="col-8">
+				{{ form.password1 }}
+				<div class="invalid-feedback d-block">
+					{{ form.password1.errors }}
+				</div>
+				{% if form.password1.help_text %}
+					<small class="form-text text-muted">
+						{{ form.password1.help_text }}
+					</small>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+
+	{% if form.password2 %}
+		<div class="form-group row mb-3">
+			<label for="id_password2" class="col-4 col-form-label fw-bolder">
+				{{ form.password2.label }}
+			</label>
+			<div class="col-8">
+				{{ form.password2 }}
+				<div class="invalid-feedback d-block">
+					{{ form.password2.errors }}
+				</div>
+				{% if form.password2.help_text %}
+					<small class="form-text text-muted">
+						{{ form.password2.help_text }}
+					</small>
+				{% endif %}
+			</div>
+		</div>
+	{% endif %}
+
+	<div class="form-group row mb-3">
+		<label for="" class="col-4 col-form-label fw-bolder">
+			이름
+		</label>
+		<div class="col-8 d-flex">
+			<div class="col-6 pe-1">
+				{{ form.last_name }}
+				<div class="invalid-feedback d-block">
+					{{ form.last_name.errors }}
+				</div>
+			</div>
+			<div class="col-6 ps-1">
+				{{ form.first_name }}
+				<div class="invalid-feedback d-block">
+					{{ form.first_name.errors }}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row mb-3">
+		<label for="id_baptism" class="col-4 col-form-label fw-bolder">
+			{{ form.baptism.label }}
+		</label>
+		<div class="col-8">
+			{{ form.baptism }}
+			<div class="invalid-feedback d-block">
+				{{ form.baptism.errors }}
+			</div>
+			{% if form.baptism.help_text %}
+				<small class="form-text text-muted">
+					{{ form.baptism.help_text }}
+				</small>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="form-group row mb-3">
+		<label for="id_phone_number" class="col-4 col-form-label fw-bolder">
+			생년월일
+		</label>
+		<div class="col-8">
+			<div class="d-flex">
+				<div class="col-4 pe-1">
+					<select name="year" class="form-select" id="id_year" required></select>
+				</div>
+				<div class="col-4 px-1">
+					<select name="month" class="form-select" id="id_month" required></select>
+				</div>
+				<div class="col-4 px-1">
+					<select name="day" class="form-select" id="id_day" required></select>
+				</div>
+			</div>
+			<div class="d-none">
+				{{ form.birthday }}
+			</div>
+			<div class="invalid-feedback d-block">
+				{{ form.birthday.errors }}
+			</div>
+			<small class="form-text text-muted">
+				생년월일을 선택해주세요.
+			</small>
+		</div>
+	</div>
+
+	<div class="form-group row mb-3">
+		<label for="id_email" class="col-4 col-form-label fw-bolder">
+			{{ form.email.label }}
+		</label>
+		<div class="col-8">
+			{{ form.email }}
+			<div class="invalid-feedback d-block">
+				{{ form.email.errors }}
+			</div>
+			{% if form.email.help_text %}
+				<small class="form-text text-muted">
+					{{ form.email.help_text }}
+				</small>
+			{% endif %}
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<label for="id_phone_number" class="col-4 col-form-label fw-bolder">
+			전화번호
+		</label>
+		<div class="col-8">
+			<div class="d-flex">
+				<div class="col-4 pe-1">
+					{{ form.phone1 }}
+				</div>
+				<div class="col-4 px-1">
+					{{ form.phone2 }}
+				</div>
+				<div class="col-4 px-1">
+					{{ form.phone3 }}
+				</div>
+			</div>
+			<div class="invalid-feedback d-block"></div>
+			<small class="form-text text-muted">
+				'전화번호 ("-" 없이 11자리 입력해주세요.)'
+			</small>
+		</div>
+	</div>
+
+	<div class="d-grid {{ class_name }} border-top mt-5 pt-5">
+		<input type="submit" value="{{ submit_value }}"
+			class="btn btn-block btn-dark">
+	</div>
+</form>
+
+<script src="{% static 'accounts/js/birthday.js' %}"></script>
+<script src="{% static 'accounts/js/phone.js' %}"></script>
+<script>
+	const disabled = '{{ disabled }}';
+	const birthday = {
+		year: "{{ birthday|slice:':4' }}",
+		month: "{{ birthday|slice:'4:6' }}",
+		day: "{{ birthday|slice:'6:8' }}"
+	}
+
+	phoneNumber("id_phone2", "id_phone3");
+	birthdaySelectMaker("id_year", "id_month", "id_day");
+</script>

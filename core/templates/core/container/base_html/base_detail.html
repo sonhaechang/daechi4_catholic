@@ -1,0 +1,52 @@
+{% extends 'container/base.html' %}
+{% load static %}
+
+{% block css %}
+	<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'core/css/base_css/detail/comment.css' %}">
+	<style>
+		.download-link:not(:last-of-type) {
+			border-bottom: 1px solid #dee2e6!important;
+			padding-bottom: 0.4rem;
+			margin-bottom: 0.4rem;
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+
+			{% block jumbotron %}
+				{% include 'components/jumbotron.html' %}
+			{% endblock %}
+
+			{% block sidebar %}
+				{% include 'components/sidebar.html' %}
+			{% endblock %}
+
+			<div class="col-lg-10 col-md-12" id="content">
+
+				{% include 'core/components/base_detail/board_header.html' %}
+
+				{% include 'core/components/base_detail/download.html' %}
+
+				{% include 'core/components/base_detail/btn_group.html' %}
+
+				<div class="pb-5" style="margin-top:70px;">
+					{{ obj.content|safe }}
+				</div>
+
+				{% include 'core/components/base_detail/comment.html' %}
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script src="{% static 'js/axios0.21.js' %}"></script>
+	<script>const commentURL = '{{ comment_url }}';</script>
+	<script src="{% static 'core/js/base_js/detail/comment.js' %}"></script>
+	<script src="{% static 'core/js/base_js/detail/delete_detail.js' %}"></script>
+{% endblock %}

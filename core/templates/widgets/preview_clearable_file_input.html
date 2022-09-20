@@ -1,0 +1,24 @@
+{% if widget.value %}
+    <img id="current_{{ widget.attrs.id }}" src="{{ widget.value.url }}" style="width: 80px;"/>
+{% endif %}
+
+<img id="preview_{{ widget.attrs.id }}" style="width: 80px; float: right; margin-right: 10px; display: none;" />
+
+{% include "admin/widgets/clearable_file_input.html" %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('{{ widget.attrs.id }}').addEventListener('change', event => {
+            const reader = new FileReader();
+            const previewImg = document.getElementById('preview_{{ widget.attrs.id }}');
+            const currnetImg = document.getElementById('current_{{ widget.attrs.id }}');
+
+            reader.onload = function(e) {
+                previewImg.setAttribute('src', e.target.result);
+                previewImg.style.display = 'block';
+                if ( currnetImg ) { currnetImg.style.opacity = '0.3'; }
+            };
+            reader.readAsDataURL(event.currentTarget.files[0]);
+        });
+    });
+</script>

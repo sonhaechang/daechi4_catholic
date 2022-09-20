@@ -1,0 +1,49 @@
+{% load static %}
+
+<a href="{% url 'info:mass_time' %}">
+	<div class="w-100 py-3 px-3 mb-2 mass-time-content bg-light shadow-sm mt-lg-0 mt-5">
+		<h5> &nbsp; &nbsp;미사시간</h5>
+		<div class="d-flex">
+			<div>&nbsp; &nbsp;- 평일미사 : </div>
+			<div>&nbsp; &nbsp; 오전 10시 (화,수,목,금)</div>
+		</div>
+		<div class="d-flex">
+			<div>&nbsp; &nbsp;- 토요미사 : </div>
+			<div>&nbsp; &nbsp; 오후 6시 (토요일 저녁 주일)</div>
+		</div>
+		<div class="d-flex">
+			<div>&nbsp; &nbsp;- 주일미사 : </div>
+			<div>&nbsp; &nbsp; 오전 7시, 오전 9시(초,중,고)</div>
+		</div>
+		<div class="d-flex">
+			<div style="opacity: 0;">&nbsp; &nbsp;- 주일미사 :</div>
+			<div>&nbsp; &nbsp; 오전 11시(교중), 오후 6시(청년)</div>
+		</div>
+	</div>
+</a>
+
+<a href="{% url 'info:location' %}">
+	<div class="w-100 py-3 px-3 work-time-content bg-light shadow-sm">
+		<h5> &nbsp; &nbsp;업무시간</h5>
+		<div class="d-flex">
+			<div>&nbsp; &nbsp;- 월요일 : </div>
+			<div>&nbsp; &nbsp; 휴무</div>
+		</div>
+		<div class="d-flex">
+			<div>&nbsp; &nbsp;- 화 ~ 목: </div>
+			<div>&nbsp; &nbsp; 오전 9시 ~ 오후 6시</div>
+		</div>
+		<div class="d-flex">
+			<div>&nbsp; &nbsp;- 금요일 : </div>
+			<div>&nbsp; &nbsp; 오전 9시 ~ 오후 12시</div>
+		</div>
+		<div class="d-flex">
+			<div>&nbsp; &nbsp;- 토요일 : </div>
+			<div>&nbsp; &nbsp; 오후 3시 ~ 오후 7시</div>
+		</div>
+		<div class="d-flex">
+			<div>&nbsp; &nbsp;- 일요일 : </div>
+			<div>&nbsp; &nbsp; 오전 6시 30분 ~ 오후 7시</div>
+		</div>
+	</div>
+</a>

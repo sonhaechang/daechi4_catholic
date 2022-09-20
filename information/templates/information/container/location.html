@@ -1,0 +1,65 @@
+{% extends 'core/container/layout.html' %}
+
+{% block content_inner %}
+<div class="map-block pb-5">
+	<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1507.6643317666992!2d127.05690552220011!3d37.5022710553898!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357ca4171b69670d%3A0x133ed7678ad6ace3!2z7LKc7KO86rWQIOuMgOy5mDTrj5kg7ISx64u5!5e0!3m2!1sko!2skr!4v1537785452463" 
+		width="100%" height="320" frameborder="0" allowfullscreen></iframe>
+
+	<table class="table table">
+		<tbody>
+			<tr>
+				<td>
+					<span style="margin-right:100px;"><strong>주소: </strong></span>
+					<span>서울특별시 강남구 삼성로71길 10</span>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<span style="margin-right:75px;"><strong>전화번호: </strong></span>
+					<span><a href="tel:02-3453-7810">02-3453-7810</a></span>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+
+<div class="time-block mt-5">
+	<h4 class="border-bottom mb-2 pb-2">
+		업무시간
+	</h4>
+
+	<table class="table table">
+		<tbody>
+			<tr>
+				<th>월</th>
+				<td>휴무</td>
+				<th>금</th>
+				<td>오전 9시 ~ 오후 12시</td>
+			</tr>
+			<tr>
+				<th rowspan="2">화</th>
+				<td rowspan="2">오전 9시 ~ 오후 6시</td>
+			</tr>
+			<tr>
+				<th>토</th>
+				<td>오후 3시 ~ 오후 7시</td>
+			</tr>
+			<tr>
+				<th>수</th>
+				<td>오전 6시 30분 ~ 오후 7시</td>
+				<th>주일</th>
+				<td>오전 7시 ~ 오후 8시</td>
+			</tr>
+			<tr>
+				<th rowspan="2">목</th>
+				<td rowspan="2">오전 9시 ~ 오후 6시</td>
+				<th rowspan="2">점심시간</th>
+				<td>평일 오후 12시 30분 ~ 1시 30분</td>
+			</tr>
+			<tr>
+				<td>주일 오후 1시 ~ 2시</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+{% endblock %}

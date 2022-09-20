@@ -1,0 +1,77 @@
+{% extends "accounts/container/layout.html" %}
+{% load static %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'accounts/css/agreement.css' %}">
+	<style>
+		.agree-input input[type=checkbox] + label:before {
+			background-image: url('{% static "icon/check-circle.svg" %}');
+		}
+		.agree-input input[type=checkbox]:checked + label:before {
+			background-image: url('{% static "icon/check-circle-fill.svg" %}');
+		}
+	</style>
+{% endblock %}
+
+{% block content %}
+	{% include 'components/jumbotron.html' with app_name='agreement' %}
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<div class="agree-input agree-all text-center py-3">
+					<input type="checkbox" name="agree-all" id="agree-all"> 
+					<label for="agree-all">모든 약관에 동의합니다.</label>
+				</div>
+
+				<form action="" method="POST" id="agree-form" class="bg-light">
+					{% csrf_token %}
+					<div class="row license-area mx-md-5 py-5">
+						<h4 class="mb-3">서비스 이용약관(필수)</h4>
+						<div class="col-12 license-txt bg-white overflow-scroll border-top border-start border-end p-4" style="max-height: 258px; font-size: 15px;">
+							{% include 'accounts/components/terms_of_service.html' %}
+						</div>
+						<div class="col-12 px-4 pt-5 license-txt bg-white border-bottom border-start border-end">
+							<p>“ 위 서비스 이용약관에 동의하지 않을 권리가 있습니다. 그러나 동의하지 않는 경우 당사가 제공하는 서비스를 제공받을 수 없습니다. ”</p>
+						</div>
+						<div class="col-12 px-4 py-3 agree-input bg-white border-bottom border-start border-end d-flex">
+							<div class="col-6" style="font-size: 18px;">
+								서비스 이용약관에 동의하시겠습니까?
+							</div>
+							<div class="col-6 d-flx">
+								<input type="checkbox" name="agree1" id="agree1">
+								<label for="agree1">내용에 동의합니다.</label>
+							</div>
+						</div>
+
+						<h4 class="mt-5 mb-3">개인정보 수집 및 이용 동의(필수)</h4>
+						<div class="col-12 license-txt bg-white overflow-scroll p-4 border-top border-start border-end" style="max-height: 258px; font-size: 15px;">
+							{% include 'accounts/components/privacy_policy.html' %}
+						</div>
+						<div class="col-12 px-4 pt-3 license-txt bg-white border-bottom border-start border-end">
+							<p>“ 위 개인정보 수집 및 이용에 동의하지 않을 권리가 있습니다. 그러나 동의하지 않는 경우 당사가 제공하는 서비스를 제공받을 수 없습니다. ”</p>
+						</div>
+						<div class="col-12 px-4 py-3 agree-input bg-white border-bottom border-start border-end d-flex">
+							<div class="col-6" style="font-size: 18px;">
+								개인정보 수집 및 이용에 동의하시겠습니까?
+							</div>
+							<div class="col-6 d-flex align-items-center">
+								<input type="checkbox" name="agree2" id="agree2">
+								<label for="agree2">내용에 동의합니다.</label>
+							</div>
+						</div>
+					</div>
+
+					<div class="d-grid col-4 mx-auto pb-5">
+						<input type="submit" value="가입하기" class="btn btn-dark">
+					</div>
+				</form>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script src="{% static 'accounts/js/agreement.js' %}"></script>
+{% endblock %}

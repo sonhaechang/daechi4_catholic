@@ -1,0 +1,15 @@
+.table-block .table > :not(:first-child) {
+	border-top: none;
+}
+.table-block thead { display: none; }
+.table-block .web-tr { display: none; }
+.table-block .mobile-tr { display: table-row; }
+
+@media only screen and (min-width: 768px) {
+	.table-block .table > :not(:first-child) {
+		border-top: 2px solid currentColor;
+	}
+	.table-block thead { display: table-header-group; }
+	.table-block .web-tr { display: table-row; }
+	.table-block .mobile-tr { display: none; }
+}

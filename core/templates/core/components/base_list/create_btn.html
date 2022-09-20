@@ -1,0 +1,15 @@
+{% load display_filter %}
+
+{% if user.is_authenticated %}
+	{% if user.is_superuser %}
+		{% if app_name == 'notice' or app_name == 'gallery' or app_name == 'flower' or app_name == 'weekly' %}
+			<a href="{{ app_name|get_admin_create_url }}" id="write" class="mobile-write btn btn-dark ms-2">글쓰기</a>
+		{% endif %}
+	{% endif %}
+
+	{% if app_name == 'freeboard' or app_name == 'group' or app_name == 'QnA' or app_name == 'video' or app_name == 'picture' %}
+		<a href="{{ app_name|get_create_url }}" id="write" class="mobile-write btn btn-dark ms-2">글쓰기</a> 
+	{% elif  app_name == 'school' %}
+		<a href="{{ app_name|get_create_url:school_class }}" id="write" class="mobile-write btn btn-dark ms-2">글쓰기</a> 
+	{% endif %}
+{% endif %}

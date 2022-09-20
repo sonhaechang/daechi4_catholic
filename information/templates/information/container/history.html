@@ -1,0 +1,45 @@
+{% extends 'core/container/layout.html' %}
+
+{% block css %}
+	{{ block.super }}
+	<style>
+		.history th { width: 150px; }
+	</style>
+{% endblock %}
+
+{% block title_inner %}
+{{ block.super }}
+<span class="text-muted" style="font-size: smaller;">(간략하게 작성)</span>
+{% endblock %}
+
+{% block content_inner %}
+	<table class="table table history mt-5">
+		<thead>
+			<tr>
+				<th>기간</th>
+				<th>행사명</th>
+				<th>내용</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for history in history_list %}
+				<tr>
+					<td>
+						{{ history.start|date:"Y-m-d" }}
+						{% if histort.end|date:"Y-m-d" %}
+							~ {{ history.start }}
+						{% endif %}
+					</td>
+					<td>{{ history.event_name }}</td>
+					<td>{{ history.content|linebreaks }}</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+{% endblock %}
+
+{% block script %}
+	<script>
+
+	</script>
+{% endblock %}

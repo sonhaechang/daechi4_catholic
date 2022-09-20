@@ -1,0 +1,27 @@
+{% extends "accounts/container/layout.html" %}
+
+{% block css %}
+	{{ block.super }}
+	<!-- <style>
+		.profile-form {
+			width: 100%;
+			max-width: 450px;
+			padding: 15px;
+			/* margin: auto; */
+		}
+	</style> -->
+{% endblock %}
+
+{% block content_inner %}
+	<div class="col-lg-8 offset-lg-2 col-md-12 col-sm-12">
+		<div class="mb-5 pb-3 border-bottom">
+			<h5 class="mb-2">
+				회원님의 회원정보를 
+				<span class="text-burgundy">확인하고 수정</span>
+				할 수 있습니다.
+			</h5>
+		</div>
+		
+		{% include "accounts/components/accounts_form.html" with submit_value='프로필 수정' %}
+	</div>
+{% endblock %}

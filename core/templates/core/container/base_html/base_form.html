@@ -1,0 +1,80 @@
+{% extends 'container/base.html' %}
+{% load display_filter %}
+{% load static %}
+
+{% block css %}
+	<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			{% block jumbotron %}
+				{% include 'components/jumbotron.html' %}
+			{% endblock %}
+
+			{% block sidebar %}
+				{% include 'components/sidebar.html' %}
+			{% endblock %}
+
+			<div class="col-lg-10 col-md-10 col-sm-12" id="content">
+				<div class="pb-5">
+					<div class="border-bottom pb-2">
+						<h4>{{ app_name|translate_app_name }}</h4>
+					</div>
+					<div class="mt-3">
+						<form action="." method="post" enctype="multipart/form-data">
+							{% csrf_token %}
+							{% if form.errors %}
+								{% for error in form.non_field_errors %}
+									<div class="invalid-feedback text-center pb-3" style="display:block;">
+										{{ error }}
+									</div>
+								{% endfor %}
+							{% endif %}
+							<div class="mb-3">
+								{{ form.title }}
+								<div class="invalid-feedback" style="display:block;">
+									{{ form.title.errors }}
+								</div>
+								{% if form.title.help_text %}
+									<small class="form-text text-muted">{{ form.title.help_text }}</small>
+								{% endif %}
+							</div>
+
+							{% if form.upload_file %}
+								<div class="mb-3">
+									{{ form.upload_file }}
+									<div class="invalid-feedback" style="display:block;">
+										{{ form.upload_file.errors }}
+									</div>
+									{% if form.upload_file.help_text %}
+										<small class="form-text text-muted">{{ form.upload_file.help_text }}</small>
+									{% endif %}
+								</div>
+            				{% endif %}
+
+							{% block upload_files %}
+							{% endblock %}
+
+							<div class="mb-3">
+								{{ form.content }}
+								<div class="invalid-feedback" style="display:block;">
+									{{ form.content.errors }}
+								</div>
+								{% if form.content.help_text %}
+									<small class="form-text text-muted">{{ form.content.help_text }}</small>
+								{% endif %}
+							</div>
+							
+							<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+								{% block submit_btn %}
+								{% endblock %}
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

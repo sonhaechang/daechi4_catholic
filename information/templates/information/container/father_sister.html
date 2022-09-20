@@ -1,0 +1,31 @@
+{% extends 'core/container/layout.html' %}
+
+{% block css %}
+	{{ block.super }}
+	<style>
+		@media only screen and (min-width: 992px) {
+			.father-sister-profile-block > hr { margin-top: 3rem; }
+			.father-profile .img-block { width: 22% !important; }
+		}
+	</style>
+{% endblock %}
+
+{% block content_inner %}
+<div class="father-sister-profile-block mt-5">
+	<div class="father-profile">
+		{% include 'information/components/father_sister_profile.html' with object=father_sister_list.0 %}
+	</div>
+
+	<hr class="d-none d-lg-block">
+
+	<div class="row">
+		<div class="big-sister-profile pt-5 col-lg-6 col-12">
+			{% include 'information/components/father_sister_profile.html' with object=father_sister_list.1 %}
+		</div>
+		
+		<div class="small-sister-profile pt-5 col-lg-6 col-12">
+			{% include 'information/components/father_sister_profile.html' with object=father_sister_list.2 %}
+		</div>
+	</div>
+</div>
+{% endblock %}

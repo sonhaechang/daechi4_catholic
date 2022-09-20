@@ -1,0 +1,49 @@
+{% extends "container/base.html" %}
+{% load display_filter %}
+{% load static %}
+
+{% block css %}
+	<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
+	<link href="{% static 'schedule/css/fullcalendar.min.css' %}" rel="stylesheet">
+	<link href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css' rel='stylesheet'>
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			{% block jumbotron %}
+				{% include 'components/jumbotron.html' %}
+			{% endblock %}
+
+			{% block sidebar %}
+				{% include 'components/sidebar.html' %}
+			{% endblock %}
+
+			<div class="col-md-10" id="content">
+				<div class="d-flex justify-content-between border-bottom pb-2 mb-2">
+					<h4>{{ app_name|translate_app_name }}</h4>
+					{% if user.is_authenticated and user.is_superuser  %}
+						<div>
+							<a href="{{ app_name|get_admin_create_url }}" class="mobile-write btn btn-dark ms-2">
+								일정 생성 
+							</a>
+						</div>
+					{% endif %}
+				</div>
+		
+				<div class="mt-5">
+				  	<div id="calendar" class="text-center" style="font-size: 14px;">
+				  	</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script src="{% static 'js/axios0.21.js' %}"></script>
+	<script src="{% static 'schedule/js/fullcalendar.min.js' %}"></script>
+
+	<script>const url = "{{ schedule_api_url }}";</script>
+	<script src="{% static 'schedule/js/fullcalendar.js' %}"></script>
+{% endblock %}

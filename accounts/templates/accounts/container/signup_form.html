@@ -1,0 +1,36 @@
+{% extends "accounts/container/layout.html" %}
+
+{% block css %}
+	<style>
+
+	</style>
+{% endblock %}
+
+{% block content %}
+	{% include 'components/jumbotron.html' with app_name='signup' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 col-md-12 col-sm-12">
+
+                <div class="mb-5 form-signup">
+                    <div class="text-center pb-2">
+                        <!-- <h1 class="h3 mb-3 font-weight-normal">JOIN US</h1> -->
+                        <p>
+							만약 계정이 있으시다면
+							<a href="{% url 'login' %}">Login</a>
+							해주세요.
+                        </p>
+                    </div>
+
+					<hr>
+            
+                    <div class="input-form mt-5">
+						{% include "accounts/components/accounts_form.html" with submit_value='회원가입' %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>    
+{% endblock %}

@@ -1,0 +1,26 @@
+{% load display_filter %}
+
+<div class="col-lg-2 col-md-12 sidebar" id="sidebar">
+	
+	<div class="sidebar-inner">
+		<div class="container">
+			<div class="list-group rounded-0">
+				{% for menu in app_name|get_sidebar_url:request %}
+					<h4>{{ menu.name|translate_menu_category }}</h4>
+					{% for app in menu.apps %}
+						<a href="{{ app.url }}" id="{{ app.name }}" class="list-group-item">
+							{{ app.name|translate_app_name }}
+						</a>
+					{% endfor %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<script>
+	const app_name = '{{ app_name }}';
+	now_app = document.getElementById(app_name);
+	now_app.classList.add('active');
+</script>

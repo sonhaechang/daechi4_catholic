@@ -1,0 +1,27 @@
+{% load static %}
+
+<div class="row">
+	<h4 class="pb-3">{{ object.get_position_display }}</h4>
+	<div class="col-lg-5 col-md-5 col-6 img-block">
+		<div class="border" style="width:150px; height:160px;">
+			{% if object.photo %}
+				<img src="{{ object.photo.url }}" alt="주임신부님 사진" style="width:150px; height:160px;">
+			{% else %}
+				<svg class="bd-placeholder-img card-img-top rounded" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+					<title>Photo</title>
+					<rect width="100%" height="100%" fill="#f4f4f4"></rect>
+					<text x="35%" y="50%" fill="#212529" dy=".3em">Photo</text>
+				</svg>
+			{% endif %}
+		</div>
+	</div>
+	<div class="col-lg-7 col-md-7 col-6 d-flex align-items-center content-block">
+		<div>
+			<h5 class="pb-2 text-burgundy">
+				{{ object.name }}
+			</h5>
+			<p>부임일: {{ object.appoint_date|date:"Y. m. d" }}</p>
+			<p>축일: {{ object.holy_day|date:"m. d" }}</p>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,94 @@
+{% extends 'core/container/layout.html' %}
+
+{% block css %}
+	{{ block.super }}
+	<style>
+		.table > :not(:first-child) { border-top: 1px solid currentColor; }
+		.last-td { 
+			padding-top: 28.5px !important; 
+			padding-bottom: 28.5px !important; 
+		}
+		.weekend-block { padding-top: 3rem; }
+		
+		@media only screen and (min-width: 576px) {
+			.weekend-block { padding-top: 0rem; }
+		}
+	</style>
+{% endblock %}
+
+{% block content_inner %}
+<div class="row mt-5">
+	<div class="col-lg-6 col-md-6 col-sm-12 weekdaty-block">
+		<table class="table table">
+			<thead>
+				<tr>
+					<th colspan="2">
+						<h5>평 일 미 사</h5>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="fw-bolder">화 요 일</td>
+					<td>오전 10시</td>
+				</tr>
+				<tr>
+					<td class="fw-bolder">수 요 일</td>
+					<td>오전 10시</td>
+				</tr>
+				<tr>
+					<td class="fw-bolder">목 요 일</td>
+					<td>오전 10시</td>
+				</tr>
+				<tr>
+					<td class="fw-bolder">금 요 일</td>
+					<td>오전 10시</td>
+				</tr>
+				<tr>
+					<td class="fw-bolder">유 아 영 세</td>
+					<td>홀수 달 첫째 토요일 오후 5시</td>
+				</tr>
+				<tr>
+					<td class="fw-bolder">성시간 전례</td>
+					<td>매월 첫 목요일 오후 8시</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<!-- <div class="pt-5 d-block d-sm-none d-md-none"></div> -->
+	
+	<div class="col-lg-6 col-md-6 col-sm-12 weekend-block">
+		<table class="table table">
+			<thead>
+				<tr>
+					<th colspan="2">
+						<h5>주 일 미 사</h5>
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="fw-bolder">토 요 일</td>
+					<td>오후 6시</td>
+				</tr>
+				<tr>
+					<td rowspan="2" class="fw-bolder">주 일</td>
+					<td>오전 7시, 9시(초, 중, 고생)</td>
+				</tr>
+				<tr>
+					<td>11시(교중미사), 오후 6시(청년미사)</td>
+				</tr>
+				<tr>
+					<td class="fw-bolder">봉 성 체</td>
+					<td>매월 둘째 금요일 오전 10시 30분</td>
+				</tr>
+				<tr>
+					<td class="fw-bolder last-td">고해 성사</td>
+					<td class="last-td">평일미사, 주일미사 20분 전</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

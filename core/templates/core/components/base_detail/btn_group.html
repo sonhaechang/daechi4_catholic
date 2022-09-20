@@ -1,0 +1,19 @@
+<div class="d-flex justify-content-between">
+	<div>
+		<a href="{{ obj.get_list_url }}" class="btn btn-dark btn-sm">목록</a>
+	</div>
+
+	<div>
+		{% if obj.get_previous_by_created_at %}
+			<a href="{{ obj.get_previous_post.get_absolute_url }}" class="btn btn-dark btn-sm">
+				이전글
+			</a>
+		{% endif %}
+
+		{% if obj.get_next_by_created_at %}
+			<a href="{{ obj.get_next_post.get_absolute_url }}" class="btn btn-dark btn-sm">
+				다음글
+			</a>
+		{% endif %}
+	</div>
+</div>

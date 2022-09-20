@@ -1,0 +1,34 @@
+{% extends 'container/base.html' %}
+{% load static %}
+{% load display_filter %}
+
+{% block css %}
+	<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			{% block jumbotron %}
+				{% include 'components/jumbotron.html' %}
+			{% endblock %}
+
+			{% block sidebar %}
+				{% include 'components/sidebar.html' %}
+			{% endblock %}
+
+			<div class="col-lg-10 col-md-12">
+				<h4 class="mb-2">
+					{% block title_inner %}
+						{{ app_name|translate_app_name }}
+					{% endblock %}
+				</h4>
+
+				<div class="content border-top pt-2">
+					{% block content_inner %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% load display_filter %}
+
+<div class="d-flex justify-content-between align-items-center underline p-0">
+	<h6 class="bg-burgundy m-0 py-3 px-4 text-white rounded-top">공지사항</h6>
+	<a href="{% url 'notice:notice_list' %}?show_type=list"
+		class="list-more-btn rounded-circle d-flex justify-content-center align-items-center border border-burgundy"
+		style="width: 35px; height: 35px;">
+		<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+			<path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+		</svg>
+	</a>
+</div>
+
+{% for notice in notice_list %}
+	<div class="content d-flex flex-column">
+		<a href="{{ notice.get_absolute_url }}"
+			class="view-counter px-1 py-2">
+
+			<div class="d-flex gap-2 w-100 justify-content-between">
+				<div>
+				  <h6 class="mb-2 fw-bolder" style="overflow: hidden; height: 20px;">
+					- {{ notice.title|truncatechars:30 }}
+				  </h6>
+				</div>
+				<small class="text-nowrap">
+					<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+						<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+						<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+					</svg>
+					<span class="ms-1">
+						{{ notice.created_at|date:"Y-m-d" }}
+					</span>
+				</small>
+			</div>
+		</a>
+	</div>
+{% endfor %}

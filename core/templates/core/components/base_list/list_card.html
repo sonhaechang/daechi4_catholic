@@ -1,0 +1,60 @@
+{% load static %}
+{% load humanize %}
+{% load display_filter %}
+
+<div class="web-img-card">
+	<div class="row">
+		{% for obj in obj_list %}
+			<div class="col-lg-4 col-md-4 col-6 mb-5">
+				<a {% if obj.get_absolute_url %}
+						href="{{ obj.get_absolute_url }}" 	
+					{% else %}
+						href="{{ obj|weekly_link }}" 
+						target='_blank'
+					{% endif %}
+					class="view-counter text-dark">
+					<div class="card border-0">
+						{% if obj.thumbnail_set.all %}
+							{% for t in obj.thumbnail_set.all %}
+								<img class="img rounded" src="https://daechi4.s3.ap-northeast-2.amazonaws.com/media{{ t }}" alt="Thumbnail" style="height:225px;">
+							{% endfor %}
+						{% else %}
+							<svg class="bd-placeholder-img card-img-top rounded" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+								<title>Placeholder</title>
+								<rect width="100%" height="100%" fill="#f4f4f4"></rect>
+								<text x="35%" y="50%" fill="#212529" dy=".3em">Thumbnail</text>
+							</svg>
+						{% endif %}
+			
+						<div class="card-body p-0">		
+							<p class="card-text pt-2" style="font-size: 15px;">
+								{{ obj.title|truncatechars:25 }}
+							</p>
+							<div class="d-flex justify-content-between align-items-center border-top pt-3"
+								style="font-size: 14px;">
+								<small>
+									<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+										<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+										<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+									</svg>
+									<span class="ms-2">
+										{{ obj.created_at|date:"Y-m-d" }}
+									</span>
+								</small>
+								<small>
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+										<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
+										<path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path>
+									</svg>
+									<span class="ms-2">
+										{{ obj.hits }}
+									</span>
+								</small>
+							</div>
+						</div>
+					</div>
+				</a>
+			</div>
+		{% endfor %}
+	</div>
+</div>

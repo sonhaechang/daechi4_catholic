@@ -1,0 +1,71 @@
+{% extends 'core/container/layout.html' %}
+{% load static %}
+{% load humanize %}
+{% load display_filter %}
+
+{% block css %}
+	<link rel="stylesheet" href="{% static 'core/css/main/business_link.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/quick_menu.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/slider.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/summary_block.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/summary_time.css' %}">
+{% endblock %}
+
+{% block content %}
+	{% include 'core/components/main/popup.html' %}
+
+	{% include 'core/components/main/carousel.html' %}
+
+	{% include 'core/components/main/quick_menu.html' %}
+
+	<div class="mt-10">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="row">
+						<div class="col-lg-6 col-md-12 col-sm-12 summary-block">
+							{% include 'core/components/main/summary_notice.html' %}
+						</div>
+	
+						<div class="offset-lg-1 col-lg-5 col-md-12 col-sm-12 summary-time">
+							{% include 'core/components/main/summary_time.html' %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="row">
+
+			<div class="col-12 mt-10 pt-5">
+				{% include 'core/components/main/image_slider.html' with obj_list=gallery_list slider_id='gallery-slider' %}
+			</div>
+
+			<div class="col-12 business-wrapper" style="margin-top: 9rem">
+				<div class="row">
+					{% with title='매일미사' desc='굿뉴스에서 제공하는 오늘의 미사를 보실 수 있습니다.' url='http://info.catholic.or.kr/missa/' id='business-mass' %}
+						{% include 'core/components/main/business_link.html' with title=title desc=desc url=url id=id only %}
+					{% endwith %}
+
+					{% with title='가톨릭 성가' desc='굿뉴스에서 제공하는 가톨릭 성가를 들으실 수 있습니다.' url='https://maria.catholic.or.kr/sungga/search/sungga_search.asp' id='business-chant' %}
+						{% include 'core/components/main/business_link.html' with title=title desc=desc url=url id=id only %}
+					{% endwith %}
+				</div>
+			</div>
+
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+	<script src="{% static 'core/js/base_js/main/image_slider.js' %}"></script>
+	<script src="{% static 'core/js/base_js/main/business_link.js' %}"></script>
+	<script>
+		document.addEventListener('DOMContentLoaded', function() {
+			makeSlideShow('gallery-slider');
+			check_touch_device_in_businessLink();
+		})
+	</script>
+{% endblock %}

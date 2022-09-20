@@ -1,0 +1,24 @@
+{% extends 'core/container/layout.html' %}
+
+{% block content_inner %}
+	<div class="pb-5 mt-5">
+		<h4 class="border-bottom pb-2 ps-2 mb-2">약사</h4>
+		{{ introduce.shorten|safe }}
+	</div>
+
+	<div class="pt-5">
+		<h4 class="border-bottom ps-2 pb-2">개황</h4>
+		<table class="table table">
+			<tbody>
+				{% if introduce.condition_set.all %}
+					{% for condition in introduce.condition_set.all %}
+						<tr>
+							<th>{{ condition.title }}</th>
+							<td>{{ condition.content }}</td>
+						</tr>
+					{% endfor %}
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}

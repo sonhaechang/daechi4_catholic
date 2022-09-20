@@ -1,0 +1,24 @@
+.messages { 
+	top: 5%; 
+	left: 50%; 
+	transform: translate(-50%, 5%);
+	width: 90%;
+	z-index: 1200; 
+}
+
+@media (min-width: 576px) { 
+	.messages {	width: 90%; } 
+}
+
+@media (min-width: 768px) { 
+	.messages { width: 70%; } 
+}
+
+@media (min-width: 992px) { 
+	.messages { 
+		top: 10%; 
+		left: 50%; 
+		transform: translate(-50%, 10%);
+		width: 50%; 
+	} 
+}

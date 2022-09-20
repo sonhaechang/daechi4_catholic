@@ -1,0 +1,38 @@
+.mass-time-content, .work-time-content { 
+	color: #212529; 
+}
+.mass-time-content:hover, .mass-time-content:focus, 
+.work-time-content:hover, .work-time-content:focus {
+	color: rgb(122, 0, 57);
+}
+/* .mass-time-content p, .work-time-content p { font-size: 15px; } */
+.mass-time-content div, .work-time-content div { font-size: 15px; }
+
+@media (min-width: 576px) {
+	.mass-time-content { border-top-right-radius: 0rem; }
+	.work-time-content { border-bottom-right-radius: 0rem; }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	.mass-time-content { border-top-right-radius: 0.75rem; }
+	.work-time-content { border-bottom-right-radius: 0.75rem; }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) { 
+	.mass-time-content { border-top-right-radius: 0.75rem; }
+	.work-time-content { border-bottom-right-radius: 0.75rem; }
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	.mass-time-content { border-top-right-radius: 0.75rem; }
+	.work-time-content { border-bottom-right-radius: 0.75rem; }
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+	.mass-time-content { border-top-right-radius: 0.75rem; }
+	.work-time-content { border-bottom-right-radius: 0.75rem; }
+}

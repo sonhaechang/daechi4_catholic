@@ -1,0 +1,24 @@
+{% load display_filter %}
+
+<div class="quick-menu bg-light">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<ul class="d-flex justify-content-between">
+					{% for menu in quick_menus %}
+						<li>
+							<a href="{{ menu.url }}">
+								<div class="menu-icon">
+									<img src="{{ menu.icon }}" alt="{{ menu.app_name }} icon">
+								</div>
+								<p class="menu-text mb-0">
+									{{ menu.app_name|translate_app_name }}
+								</p>
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>

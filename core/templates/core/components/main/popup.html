@@ -1,0 +1,142 @@
+<style>
+	.popup-body img { 
+		width: 100%; 
+		height: 100%; 
+	}
+	.popup-body img:first-child {
+		border-top-left-radius: 0.25rem;
+    	border-top-right-radius: 0.25rem;
+	}
+</style>
+
+{% if popup_list %}
+	{% for popup in popup_list %}
+		<div id="popup-{{ popup.pk }}" class="popup position-fixed" data-id="{{ popup.pk }}"
+			style="width: {{ popup.popup_width }}px; height: {{ popup.popup_height }}px;
+				{% if popup.is_center %}
+					top: 50%; left: 50%; transform: translate(-50%, -50%); 
+				{% else %}
+					top: {{ popup.popup_top }}%; left: {{ popup.popup_left }}%; 
+				{% endif %}
+				{% if popup.is_scroll %}
+					overflow: scroll;
+				{% else %}
+					overflow: hidden;
+				{% endif %}
+				z-index: 110{{ forloop.counter }};">
+			<div class="popup-body w-100 rounded-top" style="height: 90%;">
+				{{ popup.popup_content|safe }}
+			</div>
+			<div class="popup-footer d-flex rounded-end" style="height: 10%;">
+				<div class="d-grid col-6 mx-auto">
+					<button class="btn btn-light py-2 border" 
+						onclick="closeToday('popup-{{ popup.pk }}', 1)"
+						style="border-radius: 0 0 0 0.25rem !important;">
+						1일 동안 보지 않기
+					</button>
+				</div>
+				<div class="d-grid col-6 mx-auto">
+					<button class="btn btn-light py-2 border" 
+						onclick="closePopup('popup-{{ popup.pk }}')"
+						style="border-radius: 0 0 0.25rem 0 !important;">
+						닫기
+					</button>
+				</div>
+			</div>
+		</div>
+	{% endfor %}
+{% endif %}
+
+<script>
+	const innerWidth = window.innerWidth;
+	const innerHeight = window.innerHeight;
+	const popups = document.querySelectorAll('.popup');
+
+	// 오늘 하루 열지 않기 팝업창을 제외한 팝업창만 띄우기
+	function openPopup(e) {
+		const popupID = e.getAttribute('id');
+		const obj = document.getElementById(popupID);
+		const blnCookie = getCookie(popupID);
+
+		if (blnCookie) { obj.classList.toggle('d-none'); }
+	};
+
+	// cookie에 저장된 값 가져오기
+	function getCookie(name) {
+		const nameOfCookie = name + "=";
+		let x = 0;
+
+		while (x <= document.cookie.length) {
+			let y = (x + nameOfCookie.length);
+			if (document.cookie.substring(x, y) == nameOfCookie) {
+				if ((endOfCookie = document.cookie.indexOf(";", y)) == -1) {
+					endOfCookie = document.cookie.length;
+				}
+				return unescape(document.cookie.substring(y, endOfCookie));
+			}
+			x = document.cookie.indexOf(" ", x) + 1;
+			if (x == 0) { break; }
+		}
+	};
+
+	// cookie에 오늘 하루 보지않기 값 저장
+	function setCookie(name, value, expiredays) {
+		let todayDate = new Date();
+		todayDate = new Date(parseInt(todayDate.getTime() / 86400000) * 86400000 + 54000000);
+
+		if (todayDate > new Date()) { expiredays = expiredays - 1; }
+
+		todayDate.setDate(todayDate.getDate() + expiredays);
+		document.cookie = name + "=" + escape(value) + "; path=/; expires=" + todayDate.toGMTString() + ";"
+	}
+
+	// 팝업창 닫기
+	function closePopup(popupID) {
+		document.getElementById(popupID).classList.toggle('d-none');
+	}
+
+	// 팝업창 오늘 하루 열지 않기
+	function closeToday(popupID, expiredays) {
+		setCookie(popupID, "done", expiredays);
+		document.getElementById(popupID).classList.toggle('d-none');
+	}
+
+	// 팝업창 수만큼 반복하여 openPopup 함수 실행
+	popups.forEach(e => { openPopup(e); });
+
+</script>
+
+<script>
+	function popupResize() {
+		popups.forEach(e => {
+			const width = e.offsetWidth;
+			const height = e.offsetHeight;
+
+			function widthResize(resize=innerWidth) { e.style.width = `${resize}px`; };
+			function heightResize(resize=innerHeight) { e.style.height = `${resize}px`; };	
+
+			if (matchMedia("screen and (min-width: 992px)").matches) {
+				if (width > innerWidth) { widthResize(400) }
+				if (height > innerHeight) { heightResize(500) }
+			} else if (matchMedia("screen and (min-width: 768px)").matches)  {
+				widthResize(400);
+				heightResize(500);
+			} else {
+				widthResize(350);
+				heightResize(500);	
+			}
+		});
+	}
+
+	popupResize();
+	
+	window.addEventListener('resize', () => {
+		popupResize();
+	});
+</script>
+
+<script>
+	const img = document.querySelectorAll('.popup-body img');
+	if (img) { document.querySelector('.popup-body p').classList.add(
+		'w-100', 'h-100', 'mb-0', 'rounded-top') }
+</script>

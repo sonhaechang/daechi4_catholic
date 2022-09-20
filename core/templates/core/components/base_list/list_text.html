@@ -1,0 +1,102 @@
+{% load display_filter %}
+
+<div class="table-block">
+	<table class="table table" style="font-size: 15px;">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>글쓴이</th>
+				<th>날짜</th>
+				{% if not app_name == 'weekly' %}
+					<th>조회수</th>
+				{% endif %}
+			</tr>
+		</thead>
+		<tbody>
+			{% if obj_list %}
+				{% for obj in obj_list %}
+					<tr class="web-tr">
+						<td class="table-no">{{ forloop.counter }}</td>
+						<td class="table-title">
+							<a {% if obj.get_absolute_url %}
+									href="{{ obj.get_absolute_url }}" 	
+								{% else %}
+									href="{{ obj|weekly_link }}" 
+									target='_blank'
+								{% endif %}
+								class="view-counter text-dark">
+								{{ obj.title }}
+								{% include 'core/components/base_list/text_icon.html' %}
+							</a>
+						</td>
+						<td class="table-user">
+							<small>{{ obj.user.last_name }}{{ obj.user.first_name }}</small>
+						</td>
+						<td class="table-date">
+							<small>{{ obj.created_at|date:"Y-m-d" }}</small>
+						</td>
+						{% if not app_name == 'weekly' %}
+							<td class="table-hits">
+								<small>{{ obj.hits }}</small>
+							</td>
+						{% endif %}
+					</tr>
+					<tr class="mobile-tr">
+						<td>
+							<a {% if app_name == 'weekly' %}
+									href="{{ obj|weekly_link }}" 
+								{% else %}
+									href="{{ obj.get_absolute_url }}" 
+								{% endif %}
+								class="view-counter text-dark d-block">
+								{{ obj.title|truncatechars:30 }}
+							</a>
+							<div class="mt-2">
+								<small class="text-muted">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+										<path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
+									</svg>
+									<span class="ms-1">
+										{{ obj.user.last_name }}{{ obj.user.first_name }}
+									</span>
+								</small>
+								<small class="text-muted ms-3">
+									<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clock" viewBox="0 0 16 16">
+										<path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"></path>
+										<path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
+									</svg>
+									<span class="ms-1">
+										{{ obj.created_at|date:"Y-m-d" }}
+									</span>
+								</small>
+								{% if not app_name == 'weekly' %}
+									<small class="text-muted ms-3">
+										<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+											<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"></path>
+											<path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"></path>
+										</svg>
+										<span class="ms-1">
+											{{ obj.hits }}
+										</span>
+									</small>
+								{% endif %}
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			{% else %}
+				<tr class="web-tr">
+					<td colspan="{% if not app_name == 'weekly' %}5{% else %}4{% endif %}"
+						class="text-center py-3">
+						개시글이 없습니다.
+					</td>
+				</tr>
+				<tr class="mobile-tr">
+					<td class="text-center py-3">개시글이 없습니다.</td>
+				</tr>
+			{% endif %}
+		</tbody>
+	</table>
+</div>
+  

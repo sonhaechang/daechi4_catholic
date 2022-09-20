@@ -1,0 +1,8 @@
+{% load display_filter %}
+{% if obj_list and obj_list|get_jumbotron_image:position %}	
+	<img src="{{ obj_list|get_jumbotron_image:position }}" 
+		alt="{{ position }}-jumbotron-image" 
+		class="jumbotron-image">
+{% else %}
+	<div class="bg-light jumbotron-image"></div>
+{% endif %}

@@ -1,0 +1,11 @@
+{% extends 'core/container/layout.html' %}
+
+{% block title_inner %}
+	<span>{{ pastoral_orientation.title }}</span>
+{% endblock %}
+
+{% block content_inner %}
+	<div class="mt-5">
+		{{ pastoral_orientation.content|safe }}
+	</div>
+{% endblock %}

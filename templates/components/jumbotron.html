@@ -1,0 +1,21 @@
+{% load display_filter %}
+
+<style>
+	#jumbotron .jumbotron-image { 
+		width: 100vw; 
+		height: 300px;
+		margin-left: calc(-50vw + 50%);
+	}
+</style>
+
+<div id="jumbotron" class="mt-3 pt-1 mb-lg-5 mb-0 position-relative">
+	{% with jumbotron=app_name|classificate_jumbotron %}
+		{% include 'components/jumbotron_image.html' with obj_list=jumbotron_images position=jumbotron|split:'_' %}
+
+		{% if app_name == 'password_reset' or app_name == 'search' %}
+			{% include 'components/breadcrumb.html' with app_name=app_name|translate_app_name %}
+		{% else %}
+			{% include 'components/breadcrumb.html' with app_name=app_name|translate_app_name depth2=jumbotron|translate_menu_category %}
+		{% endif %}
+	{% endwith %}
+</div>

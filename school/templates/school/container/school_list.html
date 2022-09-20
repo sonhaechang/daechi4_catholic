@@ -1,0 +1,9 @@
+{% extends 'core/container/base_html/base_list.html' %}
+
+{% load static %}
+{% load humanize %}
+
+{% block script %}
+{{ block.super }}
+	<script src="{% static 'js/select_redirect.js' %}"></script>
+{% endblock %}
