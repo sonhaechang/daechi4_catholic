@@ -417,3 +417,4 @@ pip-selfcheck.json
 # End of https://www.toptal.com/developers/gitignore/api/django,macos,python,git,virtualenv,flask,linux
 
 secrets.json
+.parcel-cache/*
