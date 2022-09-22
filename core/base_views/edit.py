@@ -9,13 +9,19 @@ from django.views.generic.base import ContextMixin
 
 
 class PostFormMixin(ContextMixin):
+	''' requests에서 양식을 표시하고 처리하는 방법을 제공하는 Mixin '''
+
 	initial = {}
 	prefix = None
 
 	def get_form(self, form_class):
+		''' View에서 사용할 form class를 반환 '''
+
 		return form_class(**self.get_form_kwargs())
 
 	def get_form_kwargs(self):
+		''' form에 instance의 키워드 인자를 반환 '''
+
 		kwargs = {"initial": self.initial, "prefix": self.prefix}
 
 		if self.request.method in ("POST", "PUT"):
@@ -27,15 +33,20 @@ class PostFormMixin(ContextMixin):
 		return kwargs
 
 	def get_redirect_url(self):
+		''' app_name을 이용해서 redirect url을 생성해서 반환 '''
+
 		return f'{self.app_name}:{self.app_name}_detail'
 
 
 class PostProcessView(PostFormMixin, View):
+	''' form에서 GET, POST 요청을 처리하는 View '''
+
 	def post_save(self, post, upload_file=None):
+		''' 개시글을 저장, 수정하는 함수 '''
+
 		school_class = self.kwargs['school_class'] if self.app_name  == 'school' else None
 		redirect_url = self.get_redirect_url()
 
-		# if hasattr(post, 'school_class'):
 		if school_class is not None and self.post_method == 'CREATE':
 			post.school_class = self.models['post_model'].objects.get(name=school_class)
 
@@ -44,6 +55,7 @@ class PostProcessView(PostFormMixin, View):
 
 		self.upload_file(post)
 
+		# upload file이 있을 때만 delete_file 함수 실행
 		if upload_file is not None:
 			self.delete_file(upload_file)
 
@@ -55,20 +67,30 @@ class PostProcessView(PostFormMixin, View):
 		return redirect(redirect_url, pk=post.pk)
 
 	def upload_file(self, post):
+		''' upload file이 있으면 저장하는 함수 '''
+
 		for f in self.request.FILES.getlist('upload_file'):
 			self.models['upload_model'].objects.create(post=post, upload_file=f)
 
 	def delete_file(self, upload_file):
+		''' 
+		upload된 file을 삭제하는 함수 
+		UPDATE일때만 함수가 실행
+		'''
+
 		for f in self.request.POST.getlist("delete_file"):
 			p = upload_file.get(pk=f)
 			p.delete()
 
 	def get_context_data(self, **kwargs):
+		''' templates에서 사용할 변수들을 dict로 넘기는 함수 '''
+
 		context = dict()
 
 		context['app_name'] = self.app_name
 		context['form'] = self.get_form(self.form_class)
 
+		# object가 있고 (GET, POST(UPDATE 일때)) uplooad file이 있을때  upload file 전부 가져옴
 		if hasattr(self, 'get_object') and hasattr(self.get_object(), 'uploadfile_set'):
 			context['upload_file'] = self.get_object().uploadfile_set.all()
 
@@ -78,10 +100,14 @@ class PostProcessView(PostFormMixin, View):
 		return context
 
 	def get(self, request, *args, **kwargs):
+		''' GET 요청을 처리하는 함수 '''
+
 		kwargs = self.get_context_data(**kwargs)
 		return render(request, self.get_template_names(), kwargs)
 
 	def post(self, request, *args, **kwargs):
+		''' POST 요청을 처리하는 함수 '''
+
 		kwargs = self.get_context_data(**kwargs)
 
 		if kwargs['form'].is_valid():
@@ -95,6 +121,8 @@ class PostProcessView(PostFormMixin, View):
 
 	
 class BasePostCreate(LoginRequiredMixin, PermissionRequiredMixin, PostProcessView):
+	''' Post를 생성하는 모든 CreateView에서 상속 받아서 사용할 Base CreateView '''
+
 	models = {}
 	app_name = None
 	form_class = None
@@ -103,11 +131,15 @@ class BasePostCreate(LoginRequiredMixin, PermissionRequiredMixin, PostProcessVie
 	post_method = 'CREATE'
 
 	def get_template_names(self):
+		''' app_name을 이용해서 template name을 반환 '''
+
 		app_name = self.app_name
 		return [f'{app_name}/container/{app_name}_create.html']
 
 
 class BasePostEdit(LoginRequiredMixin, PermissionRequiredMixin, PostProcessView):
+	''' Post를 수정하는 모든  EditView에서 상속 받아서 사용할 Base EditView '''
+
 	models = {}
 	app_name = None
 	form_class = None
@@ -115,10 +147,14 @@ class BasePostEdit(LoginRequiredMixin, PermissionRequiredMixin, PostProcessView)
 	post_method = 'UPDATE'
 
 	def get_template_names(self):
+		''' app_name을 이용해서 template name을 반환 '''
+
 		app_name = self.app_name
 		return [f'{app_name}/container/{app_name}_edit.html']
 
 	def get_object(self):
+		''' pk로 queryset을 filtering 후 object을 반환 '''
+
 		obj = get_object_or_404(
 			self.models['post_model'], pk=self.kwargs['pk'])
 		return obj if obj.user == self.request.user else PermissionDenied()

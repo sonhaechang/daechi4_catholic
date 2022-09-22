@@ -10,14 +10,20 @@ from rest_framework.response import Response
 
 
 class BasePostDelete(APIView):
+    ''' Post를 삭제하는 모든 DeleteView에서 상속 받아서 사용할 Base APIView '''
+
     model = None
     app_name = None
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
+        ''' pk로 queryset을 filtering 후 object을 반환 '''
+
         return get_object_or_404(self.model, pk=self.kwargs['pk'])
 
     def get_success_url(self, school_class):
+        ''' form에서 유효성 검사를 통과후 rediect url을 반환 '''
+
         app_name = self.app_name
 
         if school_class is not None:
@@ -28,6 +34,8 @@ class BasePostDelete(APIView):
             return reverse(f'{app_name}:{app_name}_list')
 
     def delete(self, request, *args, **kwargs):
+        ''' DELETE 요청을 처리하는 함수 '''
+
         obj = self.get_object()
         school_class = obj.school_class if self.app_name == 'school' else None
         

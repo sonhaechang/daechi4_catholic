@@ -2,10 +2,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def base_pagination(**kwargs):
-	''' 
-	가장 기본적인 pagination 기능의 함수 댓글에 페이징 처리 또는 
-	default_pagination 함수에서 사용
-	'''
+	''' 가장 기본적인 pagination 기능의 함수 댓글에 페이징 처리 또는 default_pagination 함수에서 사용 '''
 
 	request = kwargs['request']
 	paginator = kwargs['paginator']
@@ -21,9 +18,7 @@ def base_pagination(**kwargs):
 	return queryset
 
 def default_pagination(request, queryset, paginate_by):
-	'''
-	base_pagination function 기능에 추가적으로 시작 페이지와 마지막 페이지 번호를 계산하여 반환
-	'''
+	''' base_pagination function 기능에 추가적으로 시작 페이지와 마지막 페이지 번호를 계산하여 반환 '''
 
 	paginator = Paginator(queryset, paginate_by)    
 	queryset = base_pagination(request=request, paginator=paginator)

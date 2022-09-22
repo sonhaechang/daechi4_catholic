@@ -9,6 +9,8 @@ from core.paginations import DefaultPagination
 
 
 class BaseCommentAPIView(ListModelMixin, CreateModelMixin, DestroyModelMixin, GenericAPIView):
+	''' comment 조회, 생성, 삭제하는 모든 CommentView에서 상속 받아서 사용할 Base APIView '''
+
 	pagination_class = DefaultPagination
 	serializer_class = None
 	post_model = None
@@ -16,11 +18,15 @@ class BaseCommentAPIView(ListModelMixin, CreateModelMixin, DestroyModelMixin, Ge
 	app_name = None
 
 	def get_queryset(self):
+		''' 조건에 맞는 queryset을 반환 '''
+
 		pk = self.kwargs['post_pk']
 		return self.comment_model.objects.filter(
 			post__pk=pk, parent__isnull=True).order_by('-id')
 
 	def get_post(self):
+		''' pk로 queryset을 filtering 후 post object을 반환 '''
+
 		pk = self.kwargs['post_pk']
 
 		if self.app_name == 'school':
@@ -30,15 +36,21 @@ class BaseCommentAPIView(ListModelMixin, CreateModelMixin, DestroyModelMixin, Ge
 		return get_object_or_404(self.post_model, pk=pk)
 		
 	def get_serializer_class(self):
+		''' serializer_class를 반환 '''
+
 		serializer = super().get_serializer_class()
 		serializer.user = self.request.user
 		return serializer
 
 	def get(self, request, *args, **kwargs):
+		''' GET 요청을 처리하는 함수 '''
+
 		serializer = self.list(request, *args, **kwargs)
 		return  serializer
 
 	def post(self, request, *args, **kwargs):
+		''' POST 요청을 처리하는 함수 '''
+
 		data = dict(request.data)
 		
 		parent_pk = data.get('parent_id')
@@ -58,6 +70,8 @@ class BaseCommentAPIView(ListModelMixin, CreateModelMixin, DestroyModelMixin, Ge
 		return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 	def delete(self, request, *args, **kwargs):
+		''' DELETE 요청을 처리하는 함수 '''
+
 		comment_pk = request.data.get('comment_id')
 
 		# TODO: get_or_none으로 수정 필요
