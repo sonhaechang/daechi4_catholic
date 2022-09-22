@@ -16,6 +16,8 @@ check_first_name = RegexValidator(r"[ㄱ-힣]{2,3}", "한글 이름을 2자 혹�
 
 
 class SignupForm(UserCreationForm):
+    ''' 회원가입시 사용하는 form '''
+
     baptism = forms.CharField()
     birthday = forms.CharField()
     last_name = forms.CharField(validators=[check_last_name])
@@ -57,6 +59,8 @@ class SignupForm(UserCreationForm):
 
 
 class LoginForm(AuthenticationForm):
+    ''' 로그인시 사용하는 form '''
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -71,6 +75,8 @@ class LoginForm(AuthenticationForm):
 
 
 class ProfileForm(forms.ModelForm):
+    ''' 프로필 수정할때 사용하는 form '''
+
     email = forms.EmailField()
     last_name = forms.CharField(validators=[check_last_name])
     first_name = forms.CharField(validators=[check_first_name]) 
@@ -112,6 +118,8 @@ class ProfileForm(forms.ModelForm):
 
 
 class ProfileDetailForm(ProfileForm):
+    ''' 프로필 확인할때 사용하는 form '''
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field in self.fields:
@@ -119,6 +127,8 @@ class ProfileDetailForm(ProfileForm):
 
 
 class PasswordChangeForm(AuthPasswordChangeForm):
+    ''' 비밀번호 변경시 사용하는 form '''
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         class_update_fields = ['old_password', 'new_password1', 'new_password2']
@@ -133,6 +143,8 @@ class PasswordChangeForm(AuthPasswordChangeForm):
 
 
 class PasswordResetForm(AuthPasswordResetForm):
+    ''' 비밀번호 찾기, 새 비밀번호 설정 이메일 입력받는 form '''
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         class_fields = {'email': _('이메일')}

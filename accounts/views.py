@@ -22,6 +22,8 @@ from core.mixins import LogOutOnlyView
 # Create your views here.
 @logout_required
 def agreement(request):
+    ''' 회원가입 약관동의 '''
+
     request.session['agreement'] = False
     if request.method == 'POST':
         if request.POST.get('agree1', False) and request.POST.get('agree2', False):
@@ -34,7 +36,9 @@ def agreement(request):
 
 @logout_required
 def signup(request):
-    # 약관 비동의로 접근시 약관동의 페이지로 redirect
+    ''' 회원가입 '''
+
+    # 약관 동의하지 않고 접근시 약관동의 페이지로 redirect
     if not request.session.get('agreement', False):
         return redirect('/accounts/agreement')
     request.session['agreement'] = False
@@ -51,6 +55,8 @@ def signup(request):
 
 @logout_required
 def login(request):
+    ''' 로그인 '''
+
     if request.method == 'POST':
         # 로그인 성공 후 이동할 URL. 주어지지 않으면 None
         next_url = request.GET.get('next')
@@ -72,6 +78,8 @@ def login(request):
 
 @login_required
 def profile(request):
+    ''' 프로필 보기 '''
+
     form = ProfileDetailForm(initial=profile_form_initial(request))
 
     return render(request, 'accounts/container/profile.html', {
@@ -84,6 +92,8 @@ def profile(request):
 
 @login_required
 def profile_edit(request):
+    ''' 프로필 수정 '''
+
     if request.method == 'POST':
         form = ProfileForm(
             request.POST, initial=profile_form_initial(request), user=request.user)
@@ -102,6 +112,8 @@ def profile_edit(request):
 
 @login_required
 def change_password(request):
+    ''' 비밀번호 변경 '''
+
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
@@ -120,10 +132,12 @@ def change_password(request):
 
 
 class MyPasswordResetView(LogOutOnlyView, PasswordResetView):
+    ''' 비밀번호 찾기, 새 비밀번호 설정 이메일 발송 '''
+
     success_url = reverse_lazy('login')
     form_class = PasswordResetForm
     template_name = 'accounts/container/password_reset_form.html'
-    # email_template_name = '...'
+    # TODO: 새 비밀번호 설정 temmplate 생성 필요 / email_template_name = '...'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -136,9 +150,11 @@ class MyPasswordResetView(LogOutOnlyView, PasswordResetView):
 
 
 class MyPasswordResetConfirmView(LogOutOnlyView, PasswordResetConfirmView):
+    ''' 비밀번호 찾기, 새 비밀번호 설정 '''
+
     success_url = reverse_lazy('login')
     template_name = 'accounts/container/password_reset_confirm.html'
-    # email_template_name = '...'
+    # TODO: 새 비밀번호 설정 temmplate 생성 필요 / email_template_name = '...'
 
     def form_valid(self, form):
         messages.info(self.request, '비밀번호가 성공적으로 변경되었습니다.')

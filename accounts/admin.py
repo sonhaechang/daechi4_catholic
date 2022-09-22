@@ -35,6 +35,7 @@ class CustomUserAdmin(UserAdmin):
             request, queryset, search_term,
         )
 
+        # 이름 검색시 icontains로 성과 이름 합쳐서 fullname을 filtering
         queryset |= self.model.objects.annotate(full_name=Concat('last_name', V(''), 'first_name')).filter(   
             Q(full_name__icontains=search_term) | 
             Q(first_name__icontains=search_term) | 

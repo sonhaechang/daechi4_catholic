@@ -10,6 +10,8 @@ from django.utils.translation import gettext_lazy as _
 SessionStore = import_module(settings.SESSION_ENGINE).SessionStore
 
 class Profile(models.Model):
+    ''' 프로필 '''
+
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE
@@ -39,6 +41,8 @@ class Profile(models.Model):
 
 
 class UserSession(models.Model):
+    ''' 사용자 세션 '''
+
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, 
         on_delete=models.CASCADE, 
@@ -62,6 +66,10 @@ class UserSession(models.Model):
 # user_logged_in.connect(kicked_my_other_session)
 
 def kicked_my_other_sessions(sender, request, user, **kwargs):
+    ''' 
+    현재 로그인한 사용자의 기존 로그인 세션 정보를 가져와 삭제, 
+    그리고 현재 로그인 세션을 생성 및 'kicked'라는 세션에 Treu 저장
+    '''
 
     for user_session in UserSession.objects.filter(user=user):
         session_key = user_session.session_key
