@@ -125,26 +125,6 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# pymysql.install_as_MySQLdb()
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': get_secret('DB_NAME'),
-#         'USER': get_secret('DB_USER'),
-#         'PASSWORD': get_secret('DB_PASSWORD'),
-#         # 'HOST': 'localhost',
-#         'HOST': get_secret('DB_HOST'),
-#         'PORT': get_secret('DB_PORT'),
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
