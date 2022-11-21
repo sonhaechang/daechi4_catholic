@@ -6,6 +6,7 @@ from django.utils.translation import gettext_lazy as _
 
 class LogOutOnlyView(UserPassesTestMixin):
     ''' 비로그인 확인 '''
+    
     def test_func(self):
         return not self.request.user.is_authenticated
 

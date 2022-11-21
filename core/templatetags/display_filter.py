@@ -18,12 +18,16 @@ SIGNUP = ['signup']
 
 @register.filter
 def get_detail_url(value):
+    ''' 입력받은 인자로 DetailView url을 생성 및 반환 '''
+
     app_name = value._meta.app_label
     _kwargs = {'pk': value.pk}
     return reverse(f'{app_name}:{app_name}_detail', kwargs=_kwargs)
 
 @register.filter
 def get_create_url(value, school_class=None):
+    ''' 입력받은 인자로 CreateView url을 생성 및 반환 '''
+
     if school_class is not None:
         _keargs = {'school_class': school_class}
         return reverse(f'{value}:{value}_create', kwargs=_keargs)
@@ -31,10 +35,14 @@ def get_create_url(value, school_class=None):
 
 @register.filter
 def get_admin_create_url(value):
+    ''' 입력받은 인자로 관리자 페이지 생성 url을 생성 및 반환 '''
+
     return reverse(f'admin:{value}_{value}_add')
 
 @register.filter
 def weekly_link(value):
+    ''' 주보 페이지 링크 반환 '''
+
     contents = value.content
     i = contents.find('.pdf')
     content = contents[12:i+4]
@@ -42,6 +50,8 @@ def weekly_link(value):
 
 @register.filter
 def translate_menu_category(value):
+    ''' 메뉴 카테고리 한글로 변환 '''
+
     menus = {
         'password_reset': '비밀번호 찾기',
         'participate': '참여마당',
@@ -58,6 +68,8 @@ def translate_menu_category(value):
 
 @register.filter
 def translate_app_name(value):
+    ''' app_name 한글로 반환 '''
+
     app_names = {
         'profile': '프로필', 'change_password': '비밀번호 변경', 'logout': '로그아웃', 'admin': '관리자 페이지',
         'seoul_archdiocese': '서울대교구', 'daliy_mass': '매일미사', 'catholic_chant': '가톨릭성가',
@@ -77,6 +89,8 @@ def translate_app_name(value):
 
 @register.filter
 def get_sidebar_url(value, request):
+    ''' 사이트바에서 사용할 메뉴 url 반환 '''
+
     if value in  INTRODUCE_LIST:
         return [get_menu_url('introduce')]
 
@@ -97,6 +111,11 @@ def get_sidebar_url(value, request):
 
 @register.filter
 def classificate_jumbotron(value):
+    ''' 
+    점보트론에서 value가 어떤 메뉴그룹에 포합되어 있는지 분류 
+    jumbotron_image models에 position확인하기 위함
+    '''
+
     if value in  INTRODUCE_LIST:
         return 'introduce'
 
@@ -126,6 +145,8 @@ def classificate_jumbotron(value):
 
 @register.filter
 def get_jumbotron_image(objects, value):
+    ''' 점보트론(image block)에 보여질 이미지를 반환 '''
+
     value = 'PASSWORD' if value == 'passwordreset' else value.upper()
     obj = objects.filter(position=value)
 
@@ -134,5 +155,7 @@ def get_jumbotron_image(objects, value):
 
 @register.filter
 def split(value, separator):
+    ''' 입력받은 value를 입력받은 separator 기준으로 잘라서 합쳐진 값 반환 '''
+
     return ''.join(value.split(separator))
     

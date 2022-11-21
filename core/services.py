@@ -5,18 +5,25 @@ from django_summernote import models as summer_model
 
 
 def get_menu_url(value, request=None):
-	menu_urls = {
-		'introduce': {
-			'name': 'introduce',
-			'apps': [
-				{'name': 'church_introduce', 'url': reverse('information:church_introduce')}, 
-				{'name': 'history', 'url': reverse('information:history')},
-				{'name': 'mass_time', 'url': reverse('information:mass_time')},
-				{'name': 'father_sister', 'url': reverse('information:father_sister')},
-				{'name': 'location', 'url': reverse('information:location')}  
-			],
-		},
-		'group': {
+    ''' 
+    인자로 입력받은 값을 key로 menu_urls의 value(메뉴 목록) 반환 
+
+    현재 사용자가 로그인 상태라면 로그아웃 링크 추가
+    현재 사용자가 superuser라면 관리자 페이지 링크 추가
+    '''
+
+    menu_urls = {
+        'introduce': {
+            'name': 'introduce',
+            'apps': [
+                {'name': 'church_introduce', 'url': reverse('information:church_introduce')}, 
+                {'name': 'history', 'url': reverse('information:history')},
+                {'name': 'mass_time', 'url': reverse('information:mass_time')},
+                {'name': 'father_sister', 'url': reverse('information:father_sister')},
+                {'name': 'location', 'url': reverse('information:location')}  
+            ],
+        },
+        'group': {
             'name': 'group',
             'apps': [
                 {'name': 'pastoral_counsil', 'url': reverse('information:pastoral_counsil')},
@@ -52,48 +59,52 @@ def get_menu_url(value, request=None):
                 {'name': 'daliy_mass', 'url': 'http://info.catholic.or.kr/missa/'}
             ]
         },
-		'my_page': {
+        'my_page': {
             'name': 'my_page',
             'apps': [
                 {'name': 'profile', 'url': reverse('profile')},
                 {'name': 'change_password', 'url': reverse('change_password')},
             ]
         },
-		'search': {
+        'search': {
             'name': 'search',
             'apps': [
                 {'name': 'search', 'url': 'javascript:void(0);'},
             ]
         },
-	}
+    }
 
-	if request is not None:
-		if request.user.is_authenticated:
-			next_path = request.path
-			menu_urls['my_page']['apps'].insert(3, 
-				{'name': 'logout', 'url': f'{reverse("logout")}?next={next_path}'})
-				
-		if request.user.is_superuser:
-			menu_urls['my_page']['apps'].insert(2, {'name': 'admin', 'url': '/admin'})
+    if request is not None:
+        if request.user.is_authenticated:
+            next_path = request.path
+            menu_urls['my_page']['apps'].insert(3, 
+                {'name': 'logout', 'url': f'{reverse("logout")}?next={next_path}'})
+                
+        if request.user.is_superuser:
+            menu_urls['my_page']['apps'].insert(2, {'name': 'admin', 'url': '/admin'})
 
-	return menu_urls[value]
+    return menu_urls[value]
 
 def base_summernote_crate(instance):
-	content = instance.content
-	instance.thumbnail_set.all().delete()
+    ''' 개시글이 저장될때 signals로 기존 썸네일을 삭제, 개시글에 이미지로 썸내일 생성 및 반환 '''
 
-	image = re.search(r'([0-9])\d+\-([0-9])\d+\-([0-9])\d+\/([A-Za-z0-9])\w+\-([A-Za-z0-9])\w+\-([A-Za-z0-9])\w+([A-Za-z0-9])\w+\-([A-Za-z0-9])\w+\-([A-Za-z0-9])\w+\.(?:jpg|gif|png|JPG|jpeg|ico)',
-	content)
+    content = instance.content
+    instance.thumbnail_set.all().delete()
 
-	if image:
-		return f'/django-summernote/{image.group()}'
-	else:
-		return
+    image = re.search(r'([0-9])\d+\-([0-9])\d+\-([0-9])\d+\/([A-Za-z0-9])\w+\-([A-Za-z0-9])\w+\-([A-Za-z0-9])\w+([A-Za-z0-9])\w+\-([A-Za-z0-9])\w+\-([A-Za-z0-9])\w+\.(?:jpg|gif|png|JPG|jpeg|ico)',
+    content)
+
+    if image:
+        return f'/django-summernote/{image.group()}'
+    else:
+        return
 
 def base_summernote_delete(content):
-	attachments = summer_model.Attachment.objects.all()
-	attachment = ['/'.join(i.file.url.split('/')[2:]) for i in attachments]
+    ''' 개시글을 삭제될때 signals로 attachment의 해당 이미지를 삭제'''
 
-	for i in attachment:
-		if content.find(i) != -1:
-			attachments.filter(file=i).delete()
+    attachments = summer_model.Attachment.objects.all()
+    attachment = ['/'.join(i.file.url.split('/')[2:]) for i in attachments]
+
+    for i in attachment:
+        if content.find(i) != -1:
+            attachments.filter(file=i).delete()

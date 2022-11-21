@@ -7,11 +7,15 @@ from django.urls import reverse
 
 # Create your models here.
 class HistoryModel(models.Model):
+	''' 모든 모델에 들어갈 공통 필드, 설정 (생성일과 수정일) '''
+
 	created_at = models.DateTimeField(
+		verbose_name=_('생성일'),
 		auto_now_add=True
 	)
 	
 	updated_at = models.DateTimeField(
+		verbose_name=_('수정일'),
 		auto_now=True
 	)
 
@@ -20,6 +24,8 @@ class HistoryModel(models.Model):
 
 
 class BasePostModel(HistoryModel):
+	''' 모든 게시글 모델에 들어갈 공통 필드, 설정 '''
+
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL, 
 		on_delete=models.CASCADE,
@@ -50,6 +56,8 @@ class BasePostModel(HistoryModel):
 		return self.title
 
 	def get_list_url(self):
+		''' 게시글 ListView page의 url을 생성해서 반환 '''
+
 		meta = self._meta
 		card_list = ['gallery', 'picture', 'flower']
 
@@ -64,6 +72,8 @@ class BasePostModel(HistoryModel):
 			return f'{url}?show_type=list'
 
 	def get_absolute_url(self):
+		''' 게시글 DetailView page의 url을 생성해서 반환 '''
+
 		meta = self._meta
 		reverse_location = f'{meta.app_label}:{meta.model_name}_detail'
 		
@@ -74,6 +84,11 @@ class BasePostModel(HistoryModel):
 		return reverse(reverse_location, args=[self.pk])
 
 	def get_admin_edit_url(self):
+		''' 
+		게시글 admin의 수정 페이지 url을 생성해서 반환 
+		관지자 권한이 필요한 App만 생성 ('notice', 'flower', 'gallery', 'weekly')
+		'''
+	
 		meta = self._meta
 		app_list = ['notice', 'flower', 'gallery', 'weekly']
 
@@ -82,6 +97,8 @@ class BasePostModel(HistoryModel):
 		return False
 
 	def get_edit_url(self):
+		''' 게시글 EditView page의 url을 생성해서 반환 '''
+
 		meta = self._meta
 		reverse_location = f'{meta.app_label}:{meta.model_name}_edit'
 
@@ -90,6 +107,8 @@ class BasePostModel(HistoryModel):
 		return reverse(reverse_location, args=[self.pk])
 
 	def get_delete_url(self):
+		''' 게시글 DeleteView page의 url을 생성해서 반환 '''
+
 		meta = self._meta
 		reverse_location = f'{meta.app_label}:{meta.model_name}_delete'
 
@@ -98,9 +117,13 @@ class BasePostModel(HistoryModel):
 		return reverse(reverse_location, args=[self.pk])
 
 	def get_previous_post(self):
+		''' 이전 개시글 DtailView page의 url 반환 '''
+
 		return self.get_previous_by_updated_at()
 
 	def get_next_post(self):
+		''' 다음 개시글 DtailView page의 url 반환 '''
+
 		return self.get_next_by_updated_at()
 
 	@property
@@ -109,6 +132,8 @@ class BasePostModel(HistoryModel):
 
 
 class BaseCommentModel(HistoryModel):
+	''' 모든 댓글 모델에 들어갈 공통 필드, 설정 '''
+
 	user = models.ForeignKey(
 		settings.AUTH_USER_MODEL, 
 		on_delete=models.CASCADE, 
@@ -134,11 +159,15 @@ class BaseCommentModel(HistoryModel):
 		ordering = ['-id']
 
 	def get_delete_url(self):
+		''' 댓글 DeleteView page의 url을 생성해서 반환 '''
+
 		app_name = self._meta.app_label
 		return reverse(f'{app_name}:comment_delete', args=[self.post.pk, self.pk])
 
 
 class BaseThumbnail(models.Model):
+	''' 모든 썸네일 모델에 들어갈 공통 필드, 설정 '''
+
 	thumbnail = models.CharField(
 		verbose_name=_('썸네일'),
 		max_length=200, 

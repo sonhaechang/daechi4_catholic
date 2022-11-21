@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from django.conf import settings
-# from django.core.paginator import Paginator
 from django.templatetags.static import static
 from django.shortcuts import render
 from django.urls import reverse
@@ -32,13 +31,19 @@ from weekly.models import Weekly
 
 # Create your views here.
 def main_page(request):
-    def get_objects(models):
+    ''' 메인 페이지 '''
+
+    def get_queryset(models):
+        ''' 조건에 맞는 queryset을 반환 '''
+
         app_name = models._meta.app_label
         if hasattr(models, 'thumbnail_set') and app_name != 'notice':
             return models.objects.prefetch_related('thumbnail_set').order_by('-id').all()[:10]
         return models.objects.all().order_by('-id')[:5]
 
     def quick_menu(app_name, url):
+        ''' 퀵메뉴를 dict로 생성 및 반환 '''
+
         return {
             'app_name': app_name, 
             'url': url, 
@@ -59,14 +64,16 @@ def main_page(request):
     popup_list = Popup.objects.filter(start_date__date__lte=today, end_date__date__gte=today)
 
     return render(request, 'core/container/main.html', {
-        'notice_list': get_objects(Notice),
-        'gallery_list': get_objects(Gallery),
+        'notice_list': get_queryset(Notice),
+        'gallery_list': get_queryset(Gallery),
         'quick_menus': quick_menus,
         'popup_list': popup_list,
         'media': settings.MEDIA_URL,
     })
 
 def post_search(request):
+    ''' 전체 개시판 검색 '''
+
     q = request.GET.get('q')
     show_type = request.GET.get('show_type', 'list')
 
