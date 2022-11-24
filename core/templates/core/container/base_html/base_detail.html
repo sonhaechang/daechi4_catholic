@@ -1,9 +1,10 @@
 {% extends 'container/base.html' %}
 {% load static %}
+{% load display_filter%}
 
 {% block css %}
-	<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
-	<link rel="stylesheet" href="{% static 'core/css/base_css/detail/comment.css' %}">
+	<link rel="stylesheet" href="{% static 'css/sidebar.css' %}?{% cache_bust %}">
+	<link rel="stylesheet" href="{% static 'core/css/base_css/detail/comment.css' %}?{% cache_bust %}">
 	<style>
 		.download-link:not(:last-of-type) {
 			border-bottom: 1px solid #dee2e6!important;

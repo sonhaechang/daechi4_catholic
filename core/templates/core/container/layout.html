@@ -3,7 +3,7 @@
 {% load display_filter %}
 
 {% block css %}
-	<link href="{% static 'css/sidebar.css' %}" rel="stylesheet">
+	<link rel="stylesheet" href="{% static 'css/sidebar.css' %}?{% cache_bust %}">
 {% endblock %}
 
 {% block content %}

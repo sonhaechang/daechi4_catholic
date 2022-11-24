@@ -4,11 +4,11 @@
 {% load display_filter %}
 
 {% block css %}
-	<link rel="stylesheet" href="{% static 'core/css/main/business_link.css' %}">
-	<link rel="stylesheet" href="{% static 'core/css/main/quick_menu.css' %}">
-	<link rel="stylesheet" href="{% static 'core/css/main/slider.css' %}">
-	<link rel="stylesheet" href="{% static 'core/css/main/summary_block.css' %}">
-	<link rel="stylesheet" href="{% static 'core/css/main/summary_time.css' %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/business_link.css' %}?{% cache_bust %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/quick_menu.css' %}?{% cache_bust %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/slider.css' %}?{% cache_bust %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/summary_block.css' %}?{% cache_bust %}">
+	<link rel="stylesheet" href="{% static 'core/css/main/summary_time.css' %}?{% cache_bust %}">
 {% endblock %}
 
 {% block content %}
@@ -60,8 +60,8 @@
 {% endblock %}
 
 {% block script %}
-	<script src="{% static 'core/js/base_js/main/image_slider.js' %}"></script>
-	<script src="{% static 'core/js/base_js/main/business_link.js' %}"></script>
+	<script src="{% static 'core/js/base_js/main/image_slider.js' %}?{% cache_bust %}"></script>
+	<script src="{% static 'core/js/base_js/main/business_link.js' %}?{% cache_bust %}"></script>
 	<script>
 		document.addEventListener('DOMContentLoaded', function() {
 			makeSlideShow('gallery-slider');

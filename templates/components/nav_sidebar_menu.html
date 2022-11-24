@@ -1,7 +1,7 @@
 {% load display_filter %}
 
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/nav-sidebar-menu.css' %}">
+<link rel="stylesheet" href="{% static 'css/nav-sidebar-menu.css' %}?{% cache_bust %}">
 
 <div class="flex-shrink-0 bg-light" id="nav-sidebar-menu">
 	<div class="d-flex justify-content-between align-items-center pb-3 mb-3 border-bottom ps-1">
