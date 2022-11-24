@@ -27,9 +27,9 @@ from config.sitemaps import StaticViewSitemap
 
 sitemaps = {'static': StaticViewSitemap}
 
-# TODO: img src에 media root 하드 코딩된거 방법 찾아서 수정 필요
-admin.site.site_header = mark_safe('''
-    <img src="https://daechi4.s3.ap-northeast-2.amazonaws.com/static/img/mobile_logo_white.png" 
+# TODO: 하드코딩 제거 but production server에 배포후 확인 필요
+admin.site.site_header = mark_safe(f'''
+    <img src="{settings.STATIC_URL}img/mobile_logo_white.png" 
         style="width:150px; justify-content: center; align-item: center;" />''')
 admin.site.index_title = _('대치4동성당 사이트 관리를 위한 관리자 사이트입니다.')
 admin.site.site_title = _('대치4동성당 관리자')
