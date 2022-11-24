@@ -16,6 +16,13 @@ AGREEMENT = ['agreement']
 SEARCH_LIST = ['search']
 SIGNUP = ['signup']
 
+@register.simple_tag(name='cache_bust')                                                                                                  
+def cache_bust():
+    ''' css/js file cache clear ''' 
+
+    version = '1'                                                                                                                
+    return f'v={version}'
+
 @register.filter
 def get_detail_url(value):
     ''' 입력받은 인자로 DetailView url을 생성 및 반환 '''
