@@ -1,4 +1,5 @@
 {% load static %}
+{% load display_filter %}
 
 <style>
 	.form-floating:focus-within { z-index: 2; }
@@ -192,8 +193,8 @@
 	</div>
 </form>
 
-<script src="{% static 'accounts/js/birthday.js' %}"></script>
-<script src="{% static 'accounts/js/phone.js' %}"></script>
+<script src="{% static 'accounts/js/birthday.js' %}?{% cache_bust %}"></script>
+<script src="{% static 'accounts/js/phone.js' %}?{% cache_bust %}"></script>
 <script>
 	const disabled = '{{ disabled }}';
 	const birthday = {
