@@ -1,9 +1,6 @@
 from datetime import datetime
 
-from pathlib import Path
-
 from django.conf import settings
-from django.http import HttpResponse
 from django.templatetags.static import static
 from django.shortcuts import render
 from django.urls import reverse
@@ -105,9 +102,8 @@ def post_search(request):
 def service_worker(request):
     ''' service_worker.js 적용 '''
 
-    return HttpResponse(
-        open(Path(__file__).resolve().parent / 'templates/core/container/service_worker.js'
-    ).read(), content_type='application/javascript')
+    return render(request, 'core/container/service_worker.js', {
+        'static': settings.STATIC_URL}, content_type='application/javascript')
 
 def manifest(request):
     ''' web app manifest.json file 적용 '''
